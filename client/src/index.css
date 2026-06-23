@@ -1,4 +1,4 @@
-/* index.css - corrected for Tailwind/Vite builds */
+/* name=index.css */
 
 /* Tailwind entry points */
 @tailwind base;
@@ -11,28 +11,28 @@
 
 :root {
   /* Neon Arcade Theme */
-  --primary: oklch(0.65 0.22 200); /* Neon Cyan */
-  --primary-foreground: oklch(0.12 0.01 280); /* Dark Background */
-  --secondary: oklch(0.60 0.25 320); /* Neon Magenta */
-  --secondary-foreground: oklch(0.95 0.01 0); /* Glass White */
-  --accent: oklch(0.75 0.20 120); /* Neon Lime */
-  --accent-foreground: oklch(0.12 0.01 280); /* Dark Background */
+  --primary: oklch(0.65 0.22 200);
+  --primary-foreground: oklch(0.12 0.01 280);
+  --secondary: oklch(0.60 0.25 320);
+  --secondary-foreground: oklch(0.95 0.01 0);
+  --accent: oklch(0.75 0.20 120);
+  --accent-foreground: oklch(0.12 0.01 280);
   --destructive: oklch(0.704 0.191 22.216);
   --destructive-foreground: oklch(0.985 0 0);
   --radius: 0.5rem;
 
   /* Color tokens */
-  --background: oklch(0.12 0.01 280); /* Dark Background */
-  --foreground: oklch(0.95 0.01 0); /* Glass White */
-  --card: oklch(0.18 0.02 280); /* Slightly lighter dark */
+  --background: oklch(0.12 0.01 280);
+  --foreground: oklch(0.95 0.01 0);
+  --card: oklch(0.18 0.02 280);
   --card-foreground: oklch(0.95 0.01 0);
   --popover: oklch(0.18 0.02 280);
   --popover-foreground: oklch(0.95 0.01 0);
-  --muted: oklch(0.25 0.05 280); /* Muted Purple */
-  --muted-foreground: oklch(0.70 0.01 0); /* Light Gray */
-  --border: oklch(0.25 0.05 280 / 40%); /* Muted Purple with transparency */
+  --muted: oklch(0.25 0.05 280);
+  --muted-foreground: oklch(0.70 0.01 0);
+  --border: oklch(0.25 0.05 280 / 40%);
   --input: oklch(0.18 0.02 280);
-  --ring: oklch(0.65 0.22 200); /* Neon Cyan */
+  --ring: oklch(0.65 0.22 200);
   --sidebar: oklch(0.12 0.01 280);
   --sidebar-foreground: oklch(0.95 0.01 0);
   --sidebar-accent: oklch(0.65 0.22 200);
@@ -46,23 +46,10 @@
   --chart-3: oklch(0.75 0.20 120);
   --chart-4: oklch(0.65 0.22 200);
   --chart-5: oklch(0.60 0.25 320);
-
-  /* Extras */
-  --color-neon-cyan: oklch(0.65 0.22 200);
-  --color-neon-magenta: oklch(0.60 0.25 320);
-  --color-neon-lime: oklch(0.75 0.20 120);
-  --color-dark-bg: oklch(0.12 0.01 280);
-  --color-glass-white: oklch(0.95 0.01 0);
-  --color-muted-purple: oklch(0.25 0.05 280);
 }
 
-/* -------------------------
-   Dark theme override class
-   (toggle e.g. document.documentElement.classList.toggle('dark'))
-   ------------------------- */
-
+/* Dark theme override (toggle by adding .dark on documentElement) */
 .dark {
-  /* explicit overrides kept for clarity and future adjustments */
   --primary: oklch(0.65 0.22 200);
   --primary-foreground: oklch(0.12 0.01 280);
   --secondary: oklch(0.60 0.25 320);
@@ -73,28 +60,13 @@
   --foreground: oklch(0.95 0.01 0);
   --card: oklch(0.18 0.02 280);
   --card-foreground: oklch(0.95 0.01 0);
-  --popover: oklch(0.18 0.02 280);
-  --popover-foreground: oklch(0.95 0.01 0);
   --muted: oklch(0.25 0.05 280);
   --muted-foreground: oklch(0.70 0.01 0);
   --border: oklch(0.25 0.05 280 / 40%);
   --input: oklch(0.18 0.02 280);
   --ring: oklch(0.65 0.22 200);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.985 0 0);
   --sidebar: oklch(0.12 0.01 280);
   --sidebar-foreground: oklch(0.95 0.01 0);
-  --sidebar-accent: oklch(0.65 0.22 200);
-  --sidebar-accent-foreground: oklch(0.12 0.01 280);
-  --sidebar-border: oklch(0.25 0.05 280 / 40%);
-  --sidebar-ring: oklch(0.65 0.22 200);
-  --chart-1: oklch(0.65 0.22 200);
-  --chart-2: oklch(0.60 0.25 320);
-  --chart-3: oklch(0.75 0.20 120);
-  --chart-4: oklch(0.65 0.22 200);
-  --chart-5: oklch(0.60 0.25 320);
-  --sidebar-primary: oklch(0.65 0.22 200);
-  --sidebar-primary-foreground: oklch(0.12 0.01 280);
 }
 
 /* -------------------------
@@ -121,13 +93,13 @@ body {
   line-height: 1.45;
 }
 
-/* Default border & focus ring styling using tokens */
+/* Accessible focus ring and default border color */
 :where(*) {
   border-color: var(--border);
   outline-color: color-mix(in srgb, var(--ring) 60%, transparent);
 }
 
-/* interactive cursor for enabled interactive elements */
+/* Interactive cursor */
 button:not(:disabled),
 [role="button"]:not([aria-disabled="true"]),
 [type="button"]:not(:disabled),
@@ -140,10 +112,10 @@ input[type="radio"]:not(:disabled) {
   cursor: pointer;
 }
 
-/* Typography headings */
+/* Headings */
 h1 {
   font-weight: 700;
-  font-size: 2.25rem; /* 36px */
+  font-size: 2.25rem;
   line-height: 1.1;
   font-family: 'Orbitron', 'Inter', system-ui, sans-serif;
   margin: 0 0 0.5rem 0;
@@ -151,18 +123,18 @@ h1 {
 
 h2 {
   font-weight: 600;
-  font-size: 1.5rem; /* 24px */
+  font-size: 1.5rem;
   margin: 0 0 0.5rem 0;
 }
 
 h3 {
   font-weight: 600;
-  font-size: 1.125rem; /* 18px */
+  font-size: 1.125rem;
   margin: 0 0 0.5rem 0;
 }
 
 /* -------------------------
-   Animations
+   Animations (single definitions)
    ------------------------- */
 
 @keyframes pulse-glow {
@@ -180,7 +152,6 @@ h3 {
    Components
    ------------------------- */
 
-/* Custom container */
 .container {
   width: 100%;
   margin-left: auto;
@@ -204,7 +175,7 @@ h3 {
   }
 }
 
-/* Utility to prevent flex children overflow */
+/* Prevent flex children overflow */
 .flex {
   min-height: 0;
   min-width: 0;
@@ -223,8 +194,94 @@ h3 {
   transition: background-color 240ms ease, box-shadow 240ms ease, border-color 240ms ease, transform 120ms ease;
 }
 
-/* Hover-enabled variant */
+/* Hover-enabled variant (balanced braces) */
 .glass-card-hover {
   background-color: color-mix(in srgb, var(--card) 60%, transparent 40%);
-  border: 1px solid*
-
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) * 1);
+  padding: 1rem;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: background-color 240ms ease, box-shadow 240ms ease, border-color 240ms ease, transform 120ms ease;
+}
+
+.glass-card-hover:hover,
+.glass-card-hover:focus-within {
+  background-color: color-mix(in srgb, var(--card) 80%, var(--background) 20%);
+  border-color: color-mix(in srgb, var(--ring) 60%, transparent 40%);
+  box-shadow: 0 10px 40px color-mix(in srgb, var(--ring) 18%, rgba(0, 0, 0, 0.25) 82%);
+  transform: translateY(-2px);
+}
+
+/* Neon Button */
+.neon-button {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: transform 120ms ease, box-shadow 180ms ease, background-color 120ms ease;
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  border: 1px solid color-mix(in srgb, var(--primary) 80%, transparent 20%);
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--primary) 30%, transparent 70%);
+  text-decoration: none;
+}
+
+.neon-button:hover {
+  background-color: color-mix(in srgb, var(--primary) 92%, transparent 8%);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--primary) 40%, transparent 60%), 0 6px 24px color-mix(in srgb, var(--primary) 18%, rgba(0,0,0,0.25) 82%);
+  transform: translateY(-1px);
+}
+
+.neon-button:active {
+  transform: scale(0.97);
+}
+
+/* Glowing Border */
+.glow-border {
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  transition: box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.glow-border:hover,
+.glow-border:focus-within {
+  border-color: var(--primary);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--primary) 36%, transparent 64%);
+}
+
+/* Pulsing badge and helper class */
+.pulse-badge {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.neon-glow {
+  animation: neon-glow 2.5s ease-in-out infinite;
+}
+
+/* -------------------------
+   Accessibility / Preferences
+   ------------------------- */
+
+/* Respect reduced motion by disabling animations/transitions */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* -------------------------
+   Small helpers
+   ------------------------- */
+
+.text-muted {
+  color: var(--muted-foreground);
+}
+
+.ring-focus:focus {
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--ring) 18%, transparent 82%);
+  outline: none;
+}
