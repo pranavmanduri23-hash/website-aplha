@@ -1,4 +1,3 @@
-/** Tailwind config - map a few theme names to CSS variables so you can use utilities if desired */
 module.exports = {
   content: [
     './index.html',
