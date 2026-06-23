@@ -1,0 +1,95 @@
+datasource db {
+  provider = "postgresql" // change to "sqlite" for local dev if preferred
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  password  String   // hashed password
+  role      Role     @default(STUDENT)
+  createdAt DateTime @default(now())
+  memberships ClassMember[]
+  assignments  Assignment[] @relation("UserAssignments", fields: [], references: [])
+}
+
+model Class {
+  id          String       @id @default(uuid())
+  title       String
+  description String?
+  createdAt   DateTime     @default(now())
+  members     ClassMember[]
+  assignments Assignment[]
+}
+
+model ClassMember {
+  id      String @id @default(uuid())
+  user    User   @relation(fields: [userId], references: [id])
+  userId  String
+  class   Class  @relation(fields: [classId], references: [id])
+  classId String
+  role    MemberRole @default(STUDENT)
+}
+
+model Assignment {
+  id          String       @id @default(uuid())
+  class       Class        @relation(fields: [classId], references: [id])
+  classId     String
+  title       String
+  description String?
+  dueDate     DateTime?
+  createdBy   User         @relation(fields: [createdById], references: [id])
+  createdById String
+  attachments AssignmentAttachment[]
+  submissions Submission[]
+  createdAt   DateTime     @default(now())
+}
+
+model AssignmentAttachment {
+  id           String @id @default(uuid())
+  assignment   Assignment @relation(fields: [assignmentId], references: [id])
+  assignmentId String
+  filename     String
+  url          String
+  size         Int?
+  mimeType     String?
+  createdAt    DateTime @default(now())
+}
+
+model Submission {
+  id           String @id @default(uuid())
+  assignment   Assignment @relation(fields: [assignmentId], references: [id])
+  assignmentId String
+  student      User @relation(fields: [studentId], references: [id])
+  studentId    String
+  files        SubmissionFile[]
+  createdAt    DateTime @default(now())
+  grade        Float?
+  feedback     String?
+}
+
+model SubmissionFile {
+  id           String @id @default(uuid())
+  submission   Submission @relation(fields: [submissionId], references: [id])
+  submissionId String
+  filename     String
+  url          String
+  size         Int?
+  mimeType     String?
+}
+
+enum Role {
+  ADMIN
+  TEACHER
+  STUDENT
+}
+
+enum MemberRole {
+  TEACHER
+  STUDENT
+}
