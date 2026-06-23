@@ -104,5 +104,19 @@ app.get("/api/classes/:classId/assignments", authMiddleware, async (req: AuthReq
 // Basic health route
 app.get("/api/health", (req, res) => res.json({ ok: true }));
 
+// =================================================================
+// FIXED FOR PRODUCTION: Serve the static frontend built by Vite
+// =================================================================
+const CLIENT_DIR = path.join(__dirname, "..");
+app.use(express.static(CLIENT_DIR));
+
+// Wildcard fallback ensures client-side routers (like React Router) work flawlessly
+app.get("*", (req, res) => {
+  if (req.path.startsWith("/api")) {
+    return res.status(404).json({ error: "API route not found" });
+  }
+  res.sendFile(path.join(CLIENT_DIR, "index.html"));
+});
+
 const PORT = process.env.PORT ? Number(process.env.PORT) : 4000;
 app.listen(PORT, () => console.log(`Server running on ${PORT}`));
