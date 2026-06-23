@@ -9,7 +9,7 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "types": ["node"]
+    "types": ["node", "express", "multer"]
   },
   "include": ["./**/*.ts"],
   "exclude": ["node_modules", "dist"]
