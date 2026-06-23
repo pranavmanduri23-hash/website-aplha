@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
+import { useLocalStorageState } from '@/hooks/useLocalStorageState';
 
 interface GalleryImage {
   id: string;
@@ -18,8 +19,7 @@ interface GalleryProps {
   isAdmin: boolean;
 }
 
-export default function Gallery({ isAdmin }: GalleryProps) {
-  const [images, setImages] = useState<GalleryImage[]>([
+const INITIAL_IMAGES: GalleryImage[] = [
     {
       id: '1',
       src: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=400&fit=crop',
@@ -68,7 +68,14 @@ export default function Gallery({ isAdmin }: GalleryProps) {
       uploadedAt: new Date(Date.now() - 12 * 60 * 60 * 1000),
       uploadedBy: 'Mr. Smith'
     }
-  ]);
+];
+
+export default function Gallery({ isAdmin }: GalleryProps) {
+  const [images, setImages] = useLocalStorageState<GalleryImage[]>(
+    'classhub_gallery',
+    INITIAL_IMAGES,
+    list => list.map(img => ({ ...img, uploadedAt: new Date(img.uploadedAt) })),
+  );
 
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
   const [showLightbox, setShowLightbox] = useState(false);

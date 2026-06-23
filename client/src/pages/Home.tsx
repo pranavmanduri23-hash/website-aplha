@@ -6,8 +6,12 @@ import ClassBot from '@/components/ClassBot';
 import ArcadeSection from '@/components/ArcadeSection';
 import Gallery from '@/components/Gallery';
 import AdminPanel from '@/components/AdminPanel';
+import Classmates from '@/components/Classmates';
+import Teachers from '@/components/Teachers';
+import ClassChat from '@/components/ClassChat';
+import MusicPlayer from '@/components/MusicPlayer';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Gamepad2, Bell, Clock, Trophy, Images, ShieldCheck } from 'lucide-react';
+import { Gamepad2, Bell, Clock, Trophy, Images, ShieldCheck, Users, GraduationCap, MessageCircle } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
 export default function Home() {
@@ -22,16 +26,16 @@ export default function Home() {
           {/* Welcome */}
           <div className="mb-8">
             <h1 className="text-4xl md:text-5xl font-bold text-primary mb-2">
-              Birla Open Minds · Class Hub 2026
+              Birla Open Minds International School
             </h1>
             <p className="text-muted-foreground text-lg">
-              Bandlaguda, Hyderabad — Official Class Portal
+              Bandlaguda, Hyderabad — Class Hub 2026
             </p>
           </div>
 
           <Tabs defaultValue="dashboard" className="w-full">
             <TabsList
-              className={`grid w-full mb-8 ${isAdmin ? 'grid-cols-6' : 'grid-cols-5'}`}
+              className={`grid w-full mb-8 grid-cols-2 sm:grid-cols-4 lg:${isAdmin ? 'grid-cols-9' : 'grid-cols-8'} h-auto`}
               style={{
                 background: 'rgba(24, 28, 50, 0.4)',
                 backdropFilter: 'blur(12px)',
@@ -49,6 +53,18 @@ export default function Home() {
               <TabsTrigger value="leaderboard" className="flex items-center gap-2">
                 <Trophy className="w-4 h-4" />
                 <span className="hidden sm:inline">Leaderboard</span>
+              </TabsTrigger>
+              <TabsTrigger value="classmates" className="flex items-center gap-2">
+                <Users className="w-4 h-4" />
+                <span className="hidden sm:inline">Our Class</span>
+              </TabsTrigger>
+              <TabsTrigger value="teachers" className="flex items-center gap-2">
+                <GraduationCap className="w-4 h-4" />
+                <span className="hidden sm:inline">Teachers</span>
+              </TabsTrigger>
+              <TabsTrigger value="chat" className="flex items-center gap-2">
+                <MessageCircle className="w-4 h-4" />
+                <span className="hidden sm:inline">Chat</span>
               </TabsTrigger>
               <TabsTrigger value="gallery" className="flex items-center gap-2">
                 <Images className="w-4 h-4" />
@@ -69,6 +85,9 @@ export default function Home() {
             <TabsContent value="dashboard"><AnnouncementBoard isAdmin={isAdmin} /></TabsContent>
             <TabsContent value="timetable"><Timetable isAdmin={isAdmin} /></TabsContent>
             <TabsContent value="leaderboard"><Leaderboard isAdmin={isAdmin} /></TabsContent>
+            <TabsContent value="classmates"><Classmates isAdmin={isAdmin} /></TabsContent>
+            <TabsContent value="teachers"><Teachers isAdmin={isAdmin} /></TabsContent>
+            <TabsContent value="chat"><ClassChat isAdmin={isAdmin} /></TabsContent>
             <TabsContent value="gallery"><Gallery isAdmin={isAdmin} /></TabsContent>
             <TabsContent value="arcade"><ArcadeSection /></TabsContent>
             {isAdmin && (
@@ -79,6 +98,7 @@ export default function Home() {
       </main>
 
       <ClassBot />
+      <MusicPlayer isAdmin={isAdmin} />
     </div>
   );
 }

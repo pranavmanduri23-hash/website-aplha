@@ -3,6 +3,7 @@ import { Trophy, Medal, Star, Edit2, Check, X, Plus, Trash2 } from 'lucide-react
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
+import { useLocalStorageState } from '@/hooks/useLocalStorageState';
 
 interface LeaderboardEntry {
   id: string;
@@ -35,7 +36,7 @@ function RankBadge({ rank }: { rank: number }) {
 }
 
 export default function Leaderboard({ isAdmin = false }: LeaderboardProps) {
-  const [data, setData] = useState<LeaderboardEntry[]>(INITIAL);
+  const [data, setData] = useLocalStorageState<LeaderboardEntry[]>('classhub_leaderboard', INITIAL);
   const [editId, setEditId] = useState<string | null>(null);
   const [draft, setDraft] = useState<Partial<LeaderboardEntry>>({});
 

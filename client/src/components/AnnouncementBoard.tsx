@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
+import { useLocalStorageState } from '@/hooks/useLocalStorageState';
 
 interface Announcement {
   id: string;
@@ -48,7 +49,11 @@ function formatTime(date: Date) {
 }
 
 export default function AnnouncementBoard({ isAdmin }: AnnouncementBoardProps) {
-  const [items, setItems] = useState<Announcement[]>(INITIAL);
+  const [items, setItems] = useLocalStorageState<Announcement[]>(
+    'classhub_announcements',
+    INITIAL,
+    list => list.map(a => ({ ...a, timestamp: new Date(a.timestamp) })),
+  );
   const [showDialog, setShowDialog] = useState(false);
   const [editing, setEditing] = useState<Announcement | null>(null);
   const [title, setTitle] = useState('');
