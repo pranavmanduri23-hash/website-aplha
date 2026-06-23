@@ -8,88 +8,79 @@ generator client {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  name      String?
-  password  String   // hashed password
-  role      Role     @default(STUDENT)
-  createdAt DateTime @default(now())
+  id          String        @id @default(uuid())
+  email       String        @unique
+  name        String?
+  password    String        // hashed password
+  role        Role          @default(STUDENT)
+  createdAt   DateTime      @default(now())
   memberships ClassMember[]
-  assignments  Assignment[] @relation("UserAssignments", fields: [], references: [])
+  
+  // FIX 1: Linked cleanly to Assignment via named relation
+  assignments Assignment[]  @relation("UserAssignments")
+  
+  // FIX 2: Added missing back-reference for submissions
+  submissions Submission[]
 }
 
 model Class {
-  id          String       @id @default(uuid())
+  id          String        @id @default(uuid())
   title       String
   description String?
-  createdAt   DateTime     @default(now())
+  createdAt   DateTime      @default(now())
   members     ClassMember[]
   assignments Assignment[]
 }
 
 model ClassMember {
-  id      String @id @default(uuid())
-  user    User   @relation(fields: [userId], references: [id])
+  id      String     @id @default(uuid())
+  user    User       @relation(fields: [userId], references: [id])
   userId  String
-  class   Class  @relation(fields: [classId], references: [id])
+  class   Class      @relation(fields: [classId], references: [id])
   classId String
   role    MemberRole @default(STUDENT)
 }
 
 model Assignment {
-  id          String       @id @default(uuid())
-  class       Class        @relation(fields: [classId], references: [id])
+  id          String                 @id @default(uuid())
+  class       Class                  @relation(fields: [classId], references: [id])
   classId     String
   title       String
   description String?
   dueDate     DateTime?
-  createdBy   User         @relation(fields: [createdById], references: [id])
+  
+  // FIX 3: Bound explicitly to the "UserAssignments" relation name
+  createdBy   User                   @relation("UserAssignments", fields: [createdById], references: [id])
   createdById String
+  
   attachments AssignmentAttachment[]
   submissions Submission[]
-  createdAt   DateTime     @default(now())
+  createdAt   DateTime               @default(now())
 }
 
 model AssignmentAttachment {
-  id           String @id @default(uuid())
+  id           String     @id @default(uuid())
   assignment   Assignment @relation(fields: [assignmentId], references: [id])
   assignmentId String
   filename     String
   url          String
   size         Int?
   mimeType     String?
-  createdAt    DateTime @default(now())
+  createdAt    DateTime   @default(now())
 }
 
 model Submission {
-  id           String @id @default(uuid())
-  assignment   Assignment @relation(fields: [assignmentId], references: [id])
+  id           String           @id @default(uuid())
+  assignment   Assignment       @relation(fields: [assignmentId], references: [id])
   assignmentId String
-  student      User @relation(fields: [studentId], references: [id])
+  student      User             @relation(fields: [studentId], references: [id])
   studentId    String
   files        SubmissionFile[]
-  createdAt    DateTime @default(now())
+  createdAt    DateTime         @default(now())
   grade        Float?
   feedback     String?
 }
 
 model SubmissionFile {
-  id           String @id @default(uuid())
-  submission   Submission @relation(fields: [submissionId], references: [id])
-  submissionId String
-  filename     String
-  url          String
-  size         Int?
-  mimeType     String?
-}
-
-enum Role {
-  ADMIN
-  TEACHER
-  STUDENT
-}
-
-enum MemberRole {
-  TEACHER
-  STUDENT
-}
+  id           String     @id @default(uuid())
+  submission   Submission @relation(fields: [submissionId], references:
