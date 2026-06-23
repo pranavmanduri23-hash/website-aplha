@@ -22,10 +22,10 @@ export default function Home() {
           {/* Welcome */}
           <div className="mb-8">
             <h1 className="text-4xl md:text-5xl font-bold text-primary mb-2">
-              Class of 2026 · Elite Hub
+              Birla Open Minds · Class Hub 2026
             </h1>
             <p className="text-muted-foreground text-lg">
-              Your ultimate digital classroom experience
+              Bandlaguda, Hyderabad — Official Class Portal
             </p>
           </div>
 

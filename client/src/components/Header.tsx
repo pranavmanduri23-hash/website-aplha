@@ -51,7 +51,7 @@ export default function Header({ className = '' }: HeaderProps) {
               <Zap className="w-5 h-5 text-primary-foreground" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-primary">Class Hub</h1>
+              <h1 className="text-xl font-bold text-primary">BOM Class Hub</h1>
               <p className="text-xs text-muted-foreground">{getCurrentDate()}</p>
             </div>
           </div>
