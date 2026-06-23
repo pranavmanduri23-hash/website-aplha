@@ -1,50 +1,30 @@
-require('dotenv').config();
-const express = require('express');
-const { createClient } = require('@supabase/supabase-js');
+// server/index.ts
+import 'dotenv/config'; // Loads your .env file
+import express from 'express';
+import { createClient } from '@supabase/supabase-js';
+
 const app = express();
-const PORT = process.env.PORT || 3000;
-
-// Initialize Supabase
-const supabase = createClient(
-  process.env.SUPABASE_URL, 
-  process.env.SUPABASE_KEY
-);
-
 app.use(express.json());
 
-// Main Route: Tracks visitor and displays welcome message
-app.get('/', async (req, res) => {
-  try {
-    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-    
-    // Log the visitor to Supabase
-    const { error } = await supabase
-      .from('visitors')
-      .insert([{ ip_address: ip }]);
+// Initialize Supabase using environment variables
+const supabase = createClient(
+  process.env.SUPABASE_URL!,
+  process.env.SUPABASE_KEY!
+);
 
-    if (error) throw error;
-
-    res.send('<h1>Welcome to Birla Open Minds Hub</h1><p>Your visit has been logged.</p>');
-  } catch (err) {
-    console.error('Database Error:', err);
-    res.status(500).send('Error logging visitor.');
-  }
+// Example API route
+app.get('/api/stats', async (req, res) => {
+  const { data, error } = await supabase.from('visitors').select('*');
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(data);
 });
 
-// Admin Route: Get total count
-app.get('/admin/stats', async (req, res) => {
-  try {
-    const { count, error } = await supabase
-      .from('visitors')
-      .select('*', { count: 'exact', head: true });
+// Serve frontend in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('dist/public'));
+}
 
-    if (error) throw error;
-    res.json({ totalVisitors: count });
-  } catch (err) {
-    res.status(500).send('Error fetching stats.');
-  }
-});
-
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on port ${PORT}`);
 });
