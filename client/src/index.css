@@ -1,16 +1,60 @@
-/* name=index.css */
+/* index.css - restored original UI but fixed for Tailwind/Vite builds */
 
-/* Tailwind entry points */
+/* Tailwind entry points (required for Vite + Tailwind) */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* -------------------------
-   Theme variables (default)
+   Theme variables (moved from the removed @theme block)
    ------------------------- */
-
 :root {
-  /* Neon Arcade Theme */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Neon Arcade Colors */
+  --color-neon-cyan: oklch(0.65 0.22 200);
+  --color-neon-magenta: oklch(0.60 0.25 320);
+  --color-neon-lime: oklch(0.75 0.20 120);
+  --color-dark-bg: oklch(0.12 0.01 280);
+  --color-glass-white: oklch(0.95 0.01 0);
+  --color-muted-purple: oklch(0.25 0.05 280);
+
+  /* Core tokens */
   --primary: oklch(0.65 0.22 200);
   --primary-foreground: oklch(0.12 0.01 280);
   --secondary: oklch(0.60 0.25 320);
@@ -20,8 +64,6 @@
   --destructive: oklch(0.704 0.191 22.216);
   --destructive-foreground: oklch(0.985 0 0);
   --radius: 0.5rem;
-
-  /* Color tokens */
   --background: oklch(0.12 0.01 280);
   --foreground: oklch(0.95 0.01 0);
   --card: oklch(0.18 0.02 280);
@@ -39,16 +81,16 @@
   --sidebar-accent-foreground: oklch(0.12 0.01 280);
   --sidebar-border: oklch(0.25 0.05 280 / 40%);
   --sidebar-ring: oklch(0.65 0.22 200);
-
-  /* Charts */
   --chart-1: oklch(0.65 0.22 200);
   --chart-2: oklch(0.60 0.25 320);
   --chart-3: oklch(0.75 0.20 120);
   --chart-4: oklch(0.65 0.22 200);
   --chart-5: oklch(0.60 0.25 320);
+  --sidebar-primary: oklch(0.65 0.22 200);
+  --sidebar-primary-foreground: oklch(0.12 0.01 280);
 }
 
-/* Dark theme override (toggle by adding .dark on documentElement) */
+/* Dark mode — keep same tokens so toggling class returns original colors */
 .dark {
   --primary: oklch(0.65 0.22 200);
   --primary-foreground: oklch(0.12 0.01 280);
@@ -60,228 +102,183 @@
   --foreground: oklch(0.95 0.01 0);
   --card: oklch(0.18 0.02 280);
   --card-foreground: oklch(0.95 0.01 0);
+  --popover: oklch(0.18 0.02 280);
+  --popover-foreground: oklch(0.95 0.01 0);
   --muted: oklch(0.25 0.05 280);
   --muted-foreground: oklch(0.70 0.01 0);
   --border: oklch(0.25 0.05 280 / 40%);
   --input: oklch(0.18 0.02 280);
   --ring: oklch(0.65 0.22 200);
+  --destructive: oklch(0.704 0.191 22.216);
+  --destructive-foreground: oklch(0.985 0 0);
   --sidebar: oklch(0.12 0.01 280);
   --sidebar-foreground: oklch(0.95 0.01 0);
+  --sidebar-accent: oklch(0.65 0.22 200);
+  --sidebar-accent-foreground: oklch(0.12 0.01 280);
+  --sidebar-border: oklch(0.25 0.05 280 / 40%);
+  --sidebar-ring: oklch(0.65 0.22 200);
+  --chart-1: oklch(0.65 0.22 200);
+  --chart-2: oklch(0.60 0.25 320);
+  --chart-3: oklch(0.75 0.20 120);
+  --chart-4: oklch(0.65 0.22 200);
+  --chart-5: oklch(0.60 0.25 320);
+  --sidebar-primary: oklch(0.65 0.22 200);
+  --sidebar-primary-foreground: oklch(0.12 0.01 280);
 }
 
 /* -------------------------
-   Base / Resets
+   Base styles using Tailwind layer (keeps your original @apply usage)
    ------------------------- */
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html, body {
-  height: 100%;
-}
-
-body {
-  margin: 0;
-  background-color: var(--background);
-  color: var(--foreground);
-  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  line-height: 1.45;
-}
-
-/* Accessible focus ring and default border color */
-:where(*) {
-  border-color: var(--border);
-  outline-color: color-mix(in srgb, var(--ring) 60%, transparent);
-}
-
-/* Interactive cursor */
-button:not(:disabled),
-[role="button"]:not([aria-disabled="true"]),
-[type="button"]:not(:disabled),
-[type="submit"]:not(:disabled),
-[type="reset"]:not(:disabled),
-a[href],
-select:not(:disabled),
-input[type="checkbox"]:not(:disabled),
-input[type="radio"]:not(:disabled) {
-  cursor: pointer;
-}
-
-/* Headings */
-h1 {
-  font-weight: 700;
-  font-size: 2.25rem;
-  line-height: 1.1;
-  font-family: 'Orbitron', 'Inter', system-ui, sans-serif;
-  margin: 0 0 0.5rem 0;
-}
-
-h2 {
-  font-weight: 600;
-  font-size: 1.5rem;
-  margin: 0 0 0.5rem 0;
-}
-
-h3 {
-  font-weight: 600;
-  font-size: 1.125rem;
-  margin: 0 0 0.5rem 0;
-}
-
-/* -------------------------
-   Animations (single definitions)
-   ------------------------- */
-
-@keyframes pulse-glow {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 1; }
-}
-
-@keyframes neon-glow {
-  0% { box-shadow: 0 0 5px rgba(0, 212, 255, 0.3); }
-  50% { box-shadow: 0 0 15px rgba(0, 212, 255, 0.6); }
-  100% { box-shadow: 0 0 5px rgba(0, 212, 255, 0.3); }
-}
-
-/* -------------------------
-   Components
-   ------------------------- */
-
-.container {
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 1rem;
-  padding-right: 1rem;
-}
-
-@media (min-width: 640px) {
-  .container {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .container {
-    padding-left: 2rem;
-    padding-right: 2rem;
-    max-width: 1280px;
-  }
-}
-
-/* Prevent flex children overflow */
-.flex {
-  min-height: 0;
-  min-width: 0;
-}
-
-/* Glass Card */
-.glass-card {
-  background-color: color-mix(in srgb, var(--card) 70%, transparent 30%);
-  color: var(--card-foreground);
-  border: 1px solid var(--border);
-  border-radius: calc(var(--radius) * 1);
-  padding: 1rem;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
-  transition: background-color 240ms ease, box-shadow 240ms ease, border-color 240ms ease, transform 120ms ease;
-}
-
-/* Hover-enabled variant (balanced braces) */
-.glass-card-hover {
-  background-color: color-mix(in srgb, var(--card) 60%, transparent 40%);
-  border: 1px solid var(--border);
-  border-radius: calc(var(--radius) * 1);
-  padding: 1rem;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  transition: background-color 240ms ease, box-shadow 240ms ease, border-color 240ms ease, transform 120ms ease;
-}
-
-.glass-card-hover:hover,
-.glass-card-hover:focus-within {
-  background-color: color-mix(in srgb, var(--card) 80%, var(--background) 20%);
-  border-color: color-mix(in srgb, var(--ring) 60%, transparent 40%);
-  box-shadow: 0 10px 40px color-mix(in srgb, var(--ring) 18%, rgba(0, 0, 0, 0.25) 82%);
-  transform: translateY(-2px);
-}
-
-/* Neon Button */
-.neon-button {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  font-weight: 600;
-  transition: transform 120ms ease, box-shadow 180ms ease, background-color 120ms ease;
-  background-color: var(--primary);
-  color: var(--primary-foreground);
-  border: 1px solid color-mix(in srgb, var(--primary) 80%, transparent 20%);
-  box-shadow: 0 6px 18px color-mix(in srgb, var(--primary) 30%, transparent 70%);
-  text-decoration: none;
-}
-
-.neon-button:hover {
-  background-color: color-mix(in srgb, var(--primary) 92%, transparent 8%);
-  box-shadow: 0 0 16px color-mix(in srgb, var(--primary) 40%, transparent 60%), 0 6px 24px color-mix(in srgb, var(--primary) 18%, rgba(0,0,0,0.25) 82%);
-  transform: translateY(-1px);
-}
-
-.neon-button:active {
-  transform: scale(0.97);
-}
-
-/* Glowing Border */
-.glow-border {
-  border: 1px solid var(--border);
-  border-radius: 0.5rem;
-  transition: box-shadow 180ms ease, border-color 180ms ease;
-}
-
-.glow-border:hover,
-.glow-border:focus-within {
-  border-color: var(--primary);
-  box-shadow: 0 0 12px color-mix(in srgb, var(--primary) 36%, transparent 64%);
-}
-
-/* Pulsing badge and helper class */
-.pulse-badge {
-  animation: pulse-glow 2s ease-in-out infinite;
-}
-
-.neon-glow {
-  animation: neon-glow 2.5s ease-in-out infinite;
-}
-
-/* -------------------------
-   Accessibility / Preferences
-   ------------------------- */
-
-/* Respect reduced motion by disabling animations/transitions */
-@media (prefers-reduced-motion: reduce) {
+@layer base {
   * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    /* keep the original border utility application; removed the problematic 'outline-ring/50' token */
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  [type="button"]:not(:disabled),
+  [type="submit"]:not(:disabled),
+  [type="reset"]:not(:disabled),
+  a[href],
+  select:not(:disabled),
+  input[type="checkbox"]:not(:disabled),
+  input[type="radio"]:not(:disabled) {
+    @apply cursor-pointer;
+  }
+  
+  /* Typography */
+  h1 {
+    @apply font-bold text-4xl;
+    font-family: 'Orbitron', sans-serif;
+  }
+  
+  h2 {
+    @apply font-semibold text-2xl;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  h3 {
+    @apply font-semibold text-xl;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  /* Animations */
+  @keyframes pulse-glow {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+  
+  @keyframes neon-glow {
+    0% { box-shadow: 0 0 5px rgba(0, 212, 255, 0.3); }
+    50% { box-shadow: 0 0 15px rgba(0, 212, 255, 0.6); }
+    100% { box-shadow: 0 0 5px rgba(0, 212, 255, 0.3); }
   }
 }
 
 /* -------------------------
-   Small helpers
+   Components layer (preserves original classes and behavior)
    ------------------------- */
+@layer components {
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem; /* 16px - mobile padding */
+    padding-right: 1rem;
+  }
 
-.text-muted {
-  color: var(--muted-foreground);
-}
+  .flex {
+    min-height: 0;
+    min-width: 0;
+  }
 
-.ring-focus:focus {
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--ring) 18%, transparent 82%);
-  outline: none;
+  /* Glass Card Component */
+  .glass-card {
+    @apply bg-card/40 border border-border rounded-lg;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+
+  .glass-card-hover {
+    @apply border border-border rounded-lg transition-all duration-300;
+    background: rgba(24, 28, 50, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+
+  .glass-card-hover:hover {
+    background: rgba(24, 28, 50, 0.6);
+    border-color: rgba(0, 212, 255, 0.5);
+    box-shadow: 0 8px 32px rgba(0, 212, 255, 0.2);
+  }
+
+  /* Neon Button */
+  .neon-button {
+    @apply px-4 py-2 rounded-lg font-semibold transition-all duration-300;
+    background: oklch(0.65 0.22 200);
+    color: oklch(0.12 0.01 280);
+    border: 1px solid oklch(0.65 0.22 200);
+  }
+
+  .neon-button:hover {
+    background: oklch(0.65 0.22 200 / 0.9);
+    box-shadow: 0 0 12px rgba(0, 212, 255, 0.5);
+  }
+
+  .neon-button:active {
+    transform: scale(0.95);
+  }
+
+  /* Glowing Border */
+  .glow-border {
+    @apply transition-all duration-300;
+    border-color: rgba(0, 212, 255, 0.5);
+  }
+
+  .glow-border:hover {
+    border-color: oklch(0.65 0.22 200);
+    box-shadow: 0 0 12px rgba(0, 212, 255, 0.4);
+  }
+
+  /* Pulsing Badge */
+  .pulse-badge {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  @media (min-width: 640px) {
+    .container {
+      padding-left: 1.5rem; /* 24px - tablet padding */
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container {
+      padding-left: 2rem; /* 32px - desktop padding */
+      padding-right: 2rem;
+      max-width: 1280px; /* Standard content width */
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    @keyframes pulse-glow {
+      0%, 100% { opacity: 0.8; }
+      50% { opacity: 0.9; }
+    }
+    
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
