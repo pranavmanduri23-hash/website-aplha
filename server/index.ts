@@ -3,11 +3,16 @@ import { PrismaClient } from "@prisma/client";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
-import { authMiddleware, requireRole, AuthRequest } from "./auth";
+import { fileURLToPath } from "url";
+import { authMiddleware, requireRole, AuthRequest } from "./auth.js"; // Ensure .js extension for ES modules if needed
 
 const prisma = new PrismaClient();
 const app = express();
 app.use(express.json());
+
+// Resolve paths accurately across different environments
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // ensure uploads dir exists
 const UPLOAD_DIR = path.join(process.cwd(), "uploads");
@@ -105,18 +110,20 @@ app.get("/api/classes/:classId/assignments", authMiddleware, async (req: AuthReq
 app.get("/api/health", (req, res) => res.json({ ok: true }));
 
 // =================================================================
-// FIXED FOR PRODUCTION: Serve the static frontend built by Vite
+// FIXED FOR PRODUCTION ROUTING
 // =================================================================
-const CLIENT_DIR = path.join(__dirname, "..");
-app.use(express.static(CLIENT_DIR));
+// Since esbuild compiles to dist/index.js, public assets are inside dist/public
+const PUBLIC_DIR = path.join(__dirname, "public");
 
-// Wildcard fallback ensures client-side routers (like React Router) work flawlessly
+app.use(express.static(PUBLIC_DIR));
+
+// Wildcard fallback lets frontend client routers route properly
 app.get("*", (req, res) => {
   if (req.path.startsWith("/api")) {
     return res.status(404).json({ error: "API route not found" });
   }
-  res.sendFile(path.join(CLIENT_DIR, "index.html"));
+  res.sendFile(path.join(PUBLIC_DIR, "index.html"));
 });
 
 const PORT = process.env.PORT ? Number(process.env.PORT) : 4000;
-app.listen(PORT, () => console.log(`Server running on ${PORT}`));
+app.listen(PORT, "0.0.0.0", () => console.log(`Server running on port ${PORT}`));
