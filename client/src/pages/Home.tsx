@@ -35,7 +35,7 @@ export default function Home() {
 
           <Tabs defaultValue="dashboard" className="w-full">
             <TabsList
-              className={`grid w-full mb-8 grid-cols-2 sm:grid-cols-4 lg:${isAdmin ? 'grid-cols-9' : 'grid-cols-8'} h-auto`}
+              className={`grid w-full mb-8 grid-cols-2 sm:grid-cols-4 h-auto ${isAdmin ? 'lg:grid-cols-9' : 'lg:grid-cols-8'}`}
               style={{
                 background: 'rgba(24, 28, 50, 0.4)',
                 backdropFilter: 'blur(12px)',
