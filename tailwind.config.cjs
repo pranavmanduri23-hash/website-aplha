@@ -17,5 +17,9 @@ module.exports = {
       }
     }
   },
+  safelist: [
+    'lg:grid-cols-8',
+    'lg:grid-cols-9'
+  ],
   plugins: []
 };
