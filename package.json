@@ -2,6 +2,7 @@
   "name": "school-class-hub",
   "version": "1.0.0",
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "dev": "vite --host",
     "client:dev": "node ./scripts/build-client.mjs --dev",
