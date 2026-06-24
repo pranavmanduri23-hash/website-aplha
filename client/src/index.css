@@ -3,10 +3,8 @@
    - Keeps the neon/glass theme variables used across the UI
 */
 
-/* Tailwind entry points (required by Vite + Tailwind) */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Tailwind v4 entry point */
+@import "tailwindcss";
 
 /* Theme variables (Neon Arcade) */
 :root{
